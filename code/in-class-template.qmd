@@ -1,0 +1,8 @@
+---
+title: "In-Class Template"
+author: "Alex Gonzales"
+format: pdf
+---
+
+
+

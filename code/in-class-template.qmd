@@ -4,5 +4,77 @@ author: "Alex Gonzales"
 format: pdf
 ---
 
+# 1. Set Up
+
+## Packages
+```{r}
+#| label: packages
+
+# general use and cleaning
+library(tidyverse)
+library(here)
+library(janitor)
+library(snakecase)
+
+
+# wrap axis labels
+library(scales)
+
+
+# reading .xlxs files
+library(readxl)
+
+# visualize missing data
+library(naniar)
+
+# arrange plots
+library(patchwork)
+```
+
+## Data
+```{r}
+#| label: data
+
+# taxonomic information
+taxon_list <- read_csv(here("data", "taxon_list.csv"))
+
+aq_ins <- read_xlsx(
+  here("data", "Aquatic Sampling Data-2026-03-10.xlsx"), 
+  sheet = "Aquatic Insects")
+
+
+# site information
+sites <- read_xlsx(
+  here("data", "Aquatic Sampling Data-2026-03-10.xlsx"), 
+  sheet = "sites")
+
+# water quality
+water_quality <- read_xlsx(
+  here("data", "Aquatic Sampling Data-2026-03-10.xlsx"), 
+  sheet = "Water Quality",
+  # powerful argument in read_xlsx to show the missing variables as numbers
+  na = c("", "n/a", "N/A")
+  )
+
+```
+
+
+# 2. Cleaning
+
+
+## `sites` object
+
+Goal: create a new object from `sites` that only includes NCOS sites
+
+Use: filter downstream data frames using new object
+
+```{r}
+#| label: ncos-site-object
+
+# creating new object from sites
+ncos_sites <- sites |> 
+  # filter to only include NCOS sites sampled four times a year
+  filter(sector == "NCOS" & sampling_frequency == "Quarterly")
+```
 
 
